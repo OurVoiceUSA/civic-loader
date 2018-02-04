@@ -13,6 +13,7 @@ Start by configuring the `.env` file:
     cat << EOF > .env
     export REDIS_HOST=localhost
     export REDIS_PORT=6379
+    export ELECTION_YEAR=2018
     export API_KEY_FEC=<YOUR KEY>
     export DEBUG=1
     EOF
