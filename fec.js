@@ -26,6 +26,13 @@ async function dbwrap() {
     return rc[func](params);
 }
 
+function cleanobj(obj) {
+  for (var propName in obj) {
+    if (obj[propName] == '' || obj[propName] == null)
+      delete obj[propName];
+  }
+}
+
 // redis connection
 var rc = redis.createClient(ovi_config.redis_port, ovi_config.redis_host,
   {
@@ -60,21 +67,36 @@ rc.on('connect', async function() {
       for (let i in json.results) {
         let fec = json.results[i];
 
-        // TODO: calculate proper ocdid from state+office+district_number
-        let div = fec.state+":"+fec.office+(fec.district_number?":"+fec.district_number:"");
+        try {
+          if (fec.office == 'P') continue; // not handling this yet
 
-        // FEC "name" is in format: LAST, FIRST MIDDLE TITLE  -- we only need first and last name
-        let last_name = fec.name.split(",")[0].toLowerCase();
-        let first_name = fec.name.split(", ")[1].split(" ")[0].toLowerCase();
+          let div = 'ocd-division/country:us/state:'+fec.state.toLowerCase()+(fec.office == 'H'?'/cd':'')+(fec.district_number?":"+fec.district_number:"");
 
-        let politician_id = sha1(div+":"+last_name+":"+first_name);
+          let dname = await rc.hgetAsync('division:'+div, 'name');
+          if (!dname) throw "Incorrect division "+div;
 
-        console.log(first_name+" "+last_name+" (id: "+politician_id+") is running for "+div);
+          // FEC "name" is in format: LAST, FIRST MIDDLE TITLE  -- we only need first and last name
+          let last_name = fec.name.split(",")[0].toLowerCase();
+          let first_name = fec.name.split(", ")[1].split(" ")[0].toLowerCase();
+          let politician_id = sha1(div+":"+last_name+":"+first_name);
+          fec.politician_id = politician_id;
 
-        // TODO: store as FEC:${fec.candidate_id} and add id to politician:${politician_id} hmset
-        //await dbwrap();
+          // delete arrays that redis won't like
+          delete fec.principal_committees;
+          delete fec.election_districts;
+          delete fec.election_years;
+          delete fec.cycles;
+
+          // remove null keys
+          cleanobj(fec);
+
+          rc.hmset('FEC:'+fec.candidate_id, fec);
+          rc.hmset('politician:'+politician_id, 'fec_candidate_id', fec.candidate_id);
+        } catch (e) {
+          console.log("Unable to import FEC record: %j", fec);
+          console.log(e);
+        }
       }
-
     } while (page < pages);
   } catch (e) {
     console.log(e);
