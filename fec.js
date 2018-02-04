@@ -97,7 +97,7 @@ rc.on('connect', async function() {
           console.log(e);
         }
       }
-    } while (page < pages);
+    } while (page <= pages);
   } catch (e) {
     console.log(e);
   }
