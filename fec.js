@@ -81,6 +81,25 @@ rc.on('connect', async function() {
           let politician_id = sha1(div+":"+last_name+":"+first_name);
           fec.politician_id = politician_id;
 
+          // convert party data
+          switch (fec.party) {
+            case 'DEM': fec.party = 'D'; break;
+            case 'REP': fec.party = 'R'; break;
+            case 'GRE': fec.party = 'G'; break;
+            case 'LIB': fec.party = 'L'; break;
+            case 'DFL': fec.party = 'DFL'; break;
+            case 'OTH': fec.party = 'O'; break;
+            case 'W':
+            case 'IND':
+            case 'UN':
+            case 'NNE':
+            case 'NPA':
+            case 'NON':
+              fec.party = 'I'; break;
+              break;
+            default: fec.party = 'U';
+          }
+
           // delete arrays that redis won't like
           delete fec.principal_committees;
           delete fec.election_districts;
