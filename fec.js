@@ -98,7 +98,7 @@ rc.on('connect', async function() {
             case 'NNE':
             case 'NPA':
             case 'NON':
-              fec.party = 'I'; break;
+              fec.party = 'I';
               break;
             default: fec.party = 'U';
           }
