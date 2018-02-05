@@ -33,6 +33,10 @@ function cleanobj(obj) {
   }
 }
 
+function ucfirst(string) {
+    return string.charAt(0).toUpperCase()+string.slice(1);
+}
+
 // redis connection
 var rc = redis.createClient(ovi_config.redis_port, ovi_config.redis_host,
   {
@@ -76,10 +80,9 @@ rc.on('connect', async function() {
           if (!dname) throw "Incorrect division "+div;
 
           // FEC "name" is in format: LAST, FIRST MIDDLE TITLE  -- we only need first and last name
-          let last_name = fec.name.split(",")[0].toLowerCase();
-          let first_name = fec.name.split(", ")[1].split(" ")[0].toLowerCase();
-          let politician_id = sha1(div+":"+last_name+":"+first_name);
-          fec.politician_id = politician_id;
+          fec.last_name = ucfirst(fec.name.split(",")[0].toLowerCase());
+          fec.first_name = ucfirst(fec.name.split(", ")[1].split(" ")[0].toLowerCase());
+          fec.politician_id = sha1(div+":"+fec.last_name.toLowerCase()+":"+fec.first_name.toLowerCase());
 
           // convert party data
           switch (fec.party) {
@@ -110,7 +113,7 @@ rc.on('connect', async function() {
           cleanobj(fec);
 
           rc.hmset('FEC:'+fec.candidate_id, fec);
-          rc.hmset('politician:'+politician_id, 'fec_candidate_id', fec.candidate_id);
+          rc.hmset('politician:'+fec.politician_id, 'fec_candidate_id', fec.candidate_id);
         } catch (e) {
           console.log("Unable to import FEC record: %j", fec);
           console.log(e);
