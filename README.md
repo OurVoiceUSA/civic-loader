@@ -20,10 +20,10 @@ Start by configuring the `.env` file:
     export DEBUG=1
     EOF
 
-Then, install dependancies with `npm install`, source in the configuration with `source .env`, and if you haven't run the ocd division import, run `node node_modules/babel-cli/bin/babel-node.js ocdid.js`. To import the FEC data, run `npm start`.
+Then, install dependancies with `npm install`, source in the configuration with `source .env`, and run `npm start`.
 
-The `API_KEY_FEC` is obtained here: https://api.open.fec.gov/developers/
-The `API_KEY_OPENSTATES` is obtained here: https://openstates.org/api/register/
+* The `API_KEY_FEC` is obtained here: https://api.open.fec.gov/developers/
+* The `API_KEY_OPENSTATES` is obtained here: https://openstates.org/api/register/
 
 **NOTE:** At the time of this writing, the tool versions are as follows:
 

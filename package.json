@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node_modules/babel-cli/bin/babel-node.js fec.js"
+    "start": "./run.sh"
   },
   "repository": {
     "type": "git",
