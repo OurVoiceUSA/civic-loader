@@ -112,7 +112,7 @@ rc.on('connect', async function() {
           // remove null keys
           cleanobj(fec);
 
-          rc.hmset('FEC:'+fec.candidate_id, fec);
+          rc.hmset('fec:'+fec.candidate_id, fec);
           rc.hmset('politician:'+fec.politician_id, 'fec_candidate_id', fec.candidate_id);
         } catch (e) {
           console.log("Unable to import FEC record: %j", fec);
