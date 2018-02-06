@@ -8,22 +8,11 @@ const ovi_config = {
   redis_host: ( process.env.REDIS_HOST ? process.env.REDIS_HOST : 'localhost' ),
   redis_port: ( process.env.REDIS_PORT ? process.env.REDIS_PORT : 6379 ),
   api_key_openstates: ( process.env.API_KEY_OPENSTATES ? process.env.API_KEY_OPENSTATES : missingConfig("API_KEY_OPENSTATES") ),
-  DEBUG: ( process.env.DEBUG ? true : false ),
 };
 
 // async'ify redis
 pifall(redis.RedisClient.prototype);
 pifall(redis.Multi.prototype);
-
-async function dbwrap() {
-    var params = Array.prototype.slice.call(arguments);
-    var func = params.shift();
-    if (ovi_config.DEBUG) {
-      let funcName = func.replace('Async', '');
-      console.log('DEBUG: '+funcName+' '+params.join(' '));
-    }
-    return rc[func](params);
-}
 
 function cleanobj(obj) {
   for (var propName in obj) {
