@@ -61,8 +61,8 @@ rc.on('connect', async function() {
           if (!dname) throw "Incorrect division "+div;
 
           // "sort_name" is in format: last, first
-          let last_name = ep.sort_name.split(",")[0].toLowerCase();
-          let first_name = ep.sort_name.split(", ")[1].toLowerCase();
+          let last_name = ep.sort_name.split(",")[0].toLowerCase().trim();
+          let first_name = ep.sort_name.split(", ")[1].toLowerCase().trim();
           ep.politician_id = sha1(div+":"+last_name+":"+first_name);
 
           // convert party data

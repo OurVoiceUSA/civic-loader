@@ -54,7 +54,7 @@ rc.on('connect', async function() {
         let dname = await rc.hgetAsync('division:'+div, 'name');
         if (!dname) throw "Incorrect division "+div;
 
-        uslc.politician_id = sha1(div+":"+uslc.last.toLowerCase()+":"+uslc.first.toLowerCase());
+        uslc.politician_id = sha1(div+":"+uslc.last.toLowerCase().trim()+":"+uslc.first.toLowerCase().trim());
 
         // convert party data
         switch (uslc.party) {

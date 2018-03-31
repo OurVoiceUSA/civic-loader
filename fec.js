@@ -80,8 +80,8 @@ rc.on('connect', async function() {
           if (!dname) throw "Incorrect division "+div;
 
           // FEC "name" is in format: LAST, FIRST MIDDLE TITLE  -- we only need first and last name
-          fec.last_name = ucfirst(fec.name.split(",")[0].toLowerCase());
-          fec.first_name = ucfirst(fec.name.split(", ")[1].split(" ")[0].toLowerCase());
+          fec.last_name = ucfirst(fec.name.split(",")[0].toLowerCase().trim());
+          fec.first_name = ucfirst(fec.name.split(", ")[1].split(" ")[0].toLowerCase().trim());
           fec.politician_id = sha1(div+":"+fec.last_name.toLowerCase()+":"+fec.first_name.toLowerCase());
 
           // convert party data
