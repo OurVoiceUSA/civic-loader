@@ -60,7 +60,7 @@ rc.on('connect', async function() {
 
         rc.hmset('cfar:'+politician_id, cfar);
       } catch(e) {
-        console.log("Unable to import cfar record: %j", cfar);
+        console.log("Unable to import cfar record: %j", obj);
         console.log(e);
       }
     }
