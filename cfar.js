@@ -49,7 +49,7 @@ rc.on('connect', async function() {
         let dname = await rc.hgetAsync('division:'+div, 'name');
         if (!dname) throw "Incorrect division "+div;
 
-        let politician_id = sha1(div+":"+obj.lastname+":"+obj.firstname);
+        let politician_id = sha1(div+":"+obj.lastname.toLowerCase()+":"+obj.firstname.toLowerCase());
 
         let cfar = {
           lastname: obj.lastname,
