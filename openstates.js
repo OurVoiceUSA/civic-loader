@@ -54,6 +54,7 @@ rc.on('connect', async function() {
         if (!dname) throw "Incorrect division "+div;
 
         os.politician_id = sha1(div+":"+os.last_name.toLowerCase().trim()+":"+os.first_name.toLowerCase().trim());
+        os.divisionId = div;
 
         // convert party data
         switch (os.party) {

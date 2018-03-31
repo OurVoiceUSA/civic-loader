@@ -83,6 +83,7 @@ rc.on('connect', async function() {
           fec.last_name = ucfirst(fec.name.split(",")[0].toLowerCase().trim());
           fec.first_name = ucfirst(fec.name.split(", ")[1].split(" ")[0].toLowerCase().trim());
           fec.politician_id = sha1(div+":"+fec.last_name.toLowerCase()+":"+fec.first_name.toLowerCase());
+          fec.divisionId = div;
 
           // convert party data
           switch (fec.party) {

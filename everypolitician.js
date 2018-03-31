@@ -64,6 +64,7 @@ rc.on('connect', async function() {
           let last_name = ep.sort_name.split(",")[0].toLowerCase().trim();
           let first_name = ep.sort_name.split(", ")[1].toLowerCase().trim();
           ep.politician_id = sha1(div+":"+last_name+":"+first_name);
+          ep.divisionId = div;
 
           // convert party data
           switch (ep.group_id) {
