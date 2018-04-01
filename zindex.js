@@ -19,11 +19,14 @@ function cleanobj(obj) {
   }
 }
 
+var blacklist = ['politician_id', 'middle_name', 'address', 'phone', 'email', 'url', 'photo_url'];
+
 async function indexObj(obj, id, key) {
   if (obj == null) return;
   Object.getOwnPropertyNames(obj).forEach((prop) => {
     let val = obj[prop].replace(/(?:\r\n|\r|\n|\t| |"|\\|)/g, '').toLowerCase();
-    rc.sadd('zindex:'+val, id);
+    if (!blacklist.includes(prop))
+      rc.sadd('zindex:'+val, id);
   });
   if (key) rc.sadd('zindex:'+key, id);
   if (obj.divisionId) {
