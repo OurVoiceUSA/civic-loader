@@ -26,6 +26,10 @@ async function indexObj(obj, id, key) {
     rc.sadd('zindex:'+val, id);
   });
   if (key) rc.sadd('zindex:'+key, id);
+  if (obj.divisionId) {
+    let div = await rc.hgetallAsync('division:'+obj.divisionId);
+    indexObj(div, id, null);
+  }
 }
 
 // redis connection
