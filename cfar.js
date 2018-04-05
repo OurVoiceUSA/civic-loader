@@ -58,7 +58,7 @@ rc.on('connect', async function() {
           lastname: obj.lastname,
           firstname: obj.firstname,
           emailaddress: obj.emailaddress,
-          ocdid: obj.ocdid,
+          divisionId: obj.ocdid,
         };
 
         rc.hmset('cfar:'+politician_id, cfar);
