@@ -74,14 +74,14 @@ rc.on('connect', async function() {
         // remove null keys
         cleanobj(csusa);
 
-        rc.hmset('csusa:'+csusa.bioguide, csusa);
-        rc.sadd('politician:'+csusa.politician_id, 'csusa:'+csusa.bioguide);
+        rc.hmset('csusa:'+csusa.politician_id, csusa);
+        rc.sadd('politician:'+csusa.politician_id, 'csusa:'+csusa.politician_id);
         } catch (e) {
-          console.log("Unable to import csusa record: %j", csusa);
-          console.log(e);
-        }
-
+        console.log("Unable to import csusa record: %j", csusa);
+        console.log(e);
       }
+
+    }
   } catch (e) {
     console.log(e);
   }
