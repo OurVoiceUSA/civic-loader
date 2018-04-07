@@ -58,23 +58,15 @@ rc.on('connect', async function() {
   for (let pid in pols) {
     let politician_id = pols[pid].split(":")[1];
 
-    let pol = await rc.hgetallAsync('politician:'+politician_id);
-    indexObj(pol, politician_id, null);
+    let refs = await rc.smembersAsync('politician:'+politician_id);
 
-    let fec = await rc.hgetallAsync('fec:'+pol.fec_candidate_id);
-    indexObj(fec, politician_id, 'fec');
+    for (let r in refs) {
+      let ref = refs[r];
 
-    let uslc = await rc.hgetallAsync('uslc:'+pol.uslc_id);
-    indexObj(uslc, politician_id, 'uslc');
-
-    let ep = await rc.hgetallAsync('everypolitician:'+pol.everypolitician_id);
-    indexObj(ep, politician_id, 'everypolitician');
-
-    let os = await rc.hgetallAsync('openstates:'+pol.openstates_id);
-    indexObj(os, politician_id, 'openstates');
-
-    let cfar = await rc.hgetallAsync('cfar:'+politician_id);
-    indexObj(cfar, politician_id, 'cfar');
+      let src = ref.split(':')[0];
+      let obj = await rc.hgetallAsync(ref);
+      indexObj(obj, politician_id, src);
+    }
   }
 
   process.exit(0);

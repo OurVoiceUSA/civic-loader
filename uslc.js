@@ -75,7 +75,7 @@ rc.on('connect', async function() {
         cleanobj(uslc);
 
         rc.hmset('uslc:'+uslc.bioguide, uslc);
-        rc.hmset('politician:'+uslc.politician_id, 'uslc_id', uslc.bioguide);
+        rc.sadd('politician:'+uslc.politician_id, 'uslc:'+uslc.bioguide);
         } catch (e) {
           console.log("Unable to import Openstates record: %j", uslc);
           console.log(e);

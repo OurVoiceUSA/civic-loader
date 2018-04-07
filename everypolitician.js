@@ -81,7 +81,7 @@ rc.on('connect', async function() {
           cleanobj(ep);
 
           rc.hmset('everypolitician:'+ep.id, ep);
-          rc.hmset('politician:'+ep.politician_id, 'everypolitician_id', ep.id);
+          rc.sadd('politician:'+ep.politician_id, 'everypolitician:'+ep.id);
         } catch (e) {
           console.log("Unable to import everypolitician record: %j", ep);
           console.log(e);
