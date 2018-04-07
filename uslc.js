@@ -71,13 +71,16 @@ rc.on('connect', async function() {
         uslc.fec_id = uslc.fec.pop();
         delete uslc.fec;
 
+        // "office" means something else here
+        delete uslc.office;
+
         // remove null keys
         cleanobj(uslc);
 
         rc.hmset('uslc:'+uslc.bioguide, uslc);
         rc.sadd('politician:'+uslc.politician_id, 'uslc:'+uslc.bioguide);
         } catch (e) {
-          console.log("Unable to import Openstates record: %j", uslc);
+          console.log("Unable to import uslc record: %j", uslc);
           console.log(e);
         }
 
