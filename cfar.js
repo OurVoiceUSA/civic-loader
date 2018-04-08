@@ -33,6 +33,10 @@ var rc = redis.createClient(ovi_config.redis_port, ovi_config.redis_host,
   }
 );
 
+function sheetcheck(obj) {
+  return (typeof(obj) == "string"?obj:'');
+}
+
 rc.on('connect', async function() {
   console.log('Connected to redis at host "'+ovi_config.redis_host+'"');
 
@@ -55,11 +59,11 @@ rc.on('connect', async function() {
         let politician_id = sha1(div+":"+obj.lastname.toLowerCase()+":"+obj.firstname.toLowerCase());
 
         let cfar = {
-          last_name: obj.lastname,
-          first_name: obj.firstname,
-          facebook: obj.facebookusername,
-          email: obj.emailaddress,
-          divisionId: obj.ocdid,
+          divisionId: sheetcheck(obj.ocdid),
+          last_name: sheetcheck(obj.lastname),
+          first_name: sheetcheck(obj.firstname),
+          email: sheetcheck(obj.emailaddress),
+          facebook: sheetcheck(obj.facebookusername),
         };
 
         rc.hmset('cfar:'+politician_id, cfar);
