@@ -55,9 +55,10 @@ rc.on('connect', async function() {
         let politician_id = sha1(div+":"+obj.lastname.toLowerCase()+":"+obj.firstname.toLowerCase());
 
         let cfar = {
-          lastname: obj.lastname,
-          firstname: obj.firstname,
-          emailaddress: obj.emailaddress,
+          last_name: obj.lastname,
+          first_name: obj.firstname,
+          facebook: obj.facebookusername,
+          email: obj.emailaddress,
           divisionId: obj.ocdid,
         };
 
