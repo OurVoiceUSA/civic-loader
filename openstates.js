@@ -71,6 +71,11 @@ rc.on('connect', async function() {
         os.address = ( Object.keys(os.offices).length ? os.offices[0].address : '' );
         os.phone = ( Object.keys(os.offices).length ? os.offices[0].phone : '' );
         delete os.offices;
+        delete os.all_ids;
+
+        // votesmart_id becomes votesmart
+        os.votesmart = os.votesmart_id;
+        delete os.votesmart_id;
 
         // remove null keys
         cleanobj(os);
