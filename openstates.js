@@ -72,6 +72,8 @@ rc.on('connect', async function() {
         os.phone = ( Object.keys(os.offices).length ? os.offices[0].phone : '' );
         delete os.offices;
         delete os.all_ids;
+        delete os['2008-2011'];
+        delete os['+links'];
         delete os['+counties'];
         delete os['+district_offices'];
         delete os['+capitol_office'];
