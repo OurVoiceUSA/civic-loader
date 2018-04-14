@@ -31,6 +31,7 @@ async function indexObj(obj, id, key) {
   if (key) rc.sadd('zindex:'+key, id);
   if (obj.divisionId) {
     let div = await rc.hgetallAsync('division:'+obj.divisionId);
+    div.state = obj.divisionId.split('/')[2].replace('state:','');
     indexObj(div, id, null);
   }
 }
