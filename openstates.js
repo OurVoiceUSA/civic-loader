@@ -73,6 +73,7 @@ rc.on('connect', async function() {
         delete os.offices;
         delete os.all_ids;
         delete os['+counties'];
+        delete os['+district_offices'];
 
         // votesmart_id becomes votesmart
         os.votesmart = os.votesmart_id;
