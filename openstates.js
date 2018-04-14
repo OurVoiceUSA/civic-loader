@@ -72,6 +72,7 @@ rc.on('connect', async function() {
         os.phone = ( Object.keys(os.offices).length ? os.offices[0].phone : '' );
         delete os.offices;
         delete os.all_ids;
+        delete os['+counties'];
 
         // votesmart_id becomes votesmart
         os.votesmart = os.votesmart_id;
