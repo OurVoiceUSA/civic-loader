@@ -48,10 +48,14 @@ rc.on('connect', async function() {
 
       try {
 
-        let div = 'ocd-division/country:us/state:'+os.state.toLowerCase()+'/'+(os.chamber == 'lower'?'sldl':'sldu')+':'+os.district;
+        os.state = os.state.toLowerCase();
+        os.district = os.district.toLowerCase().replace(' ', '_');
+        if (os.state == 'pr') continue;
+
+        let div = 'ocd-division/country:us/state:'+os.state+'/'+(os.chamber == 'lower'?'sldl':'sldu')+':'+os.district;
 
         let dname = await rc.hgetAsync('division:'+div, 'name');
-        if (!dname) throw "Incorrect division "+div;
+        if (os.state != 'dc' && !dname) throw "Incorrect division "+div;
 
         os.politician_id = sha1(div+":"+os.last_name.toLowerCase().trim()+":"+os.first_name.split(" ").shift().toLowerCase().trim());
         os.divisionId = div;
